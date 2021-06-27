@@ -48,7 +48,7 @@ namespace Voronoi_Delaunay
 		{
 			g.Clear(Color.Black);
 
-			int seed = seeder.Next();
+			int seed = 1;//seeder.Next();
 			Random rand = new Random(seed);
 
 			Collections.allPoints = new List<Point>();
@@ -101,8 +101,27 @@ namespace Voronoi_Delaunay
 				g.DrawLine(Pens.Red, p1.X, p1.Y, p2.X, p2.Y);
 			}
 
+			DrawCentroid();
+
 			voronoiGenerated = true;
 			pictureBox1.Image = backImage;
+		}
+
+		private void DrawCentroid()
+		{
+			foreach (var points in Voronoi.VoronoiPoints(delaunayTriangleList))
+			{
+				var set = points.ToArray();
+
+				var x = set.Average(p => p.x);
+				var y = set.Average(p => p.y);
+				g.FillEllipse(Brushes.Yellow, (float)(x - 1.5f), (float)(y - 1.5f), 3, 3);
+
+				//foreach (var p in set)
+				//{
+				//	g.FillEllipse(Brushes.Yellow, (float)(p.x - 1.5f), (float)(p.y - 1.5f), 3, 3);
+				//}
+			}
 		}
 
 		private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
